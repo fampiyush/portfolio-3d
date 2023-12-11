@@ -2,13 +2,19 @@
 
 import { Suspense, useEffect, useState, useRef } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
-import { useGLTF, OrbitControls } from '@react-three/drei'
+import { useGLTF, OrbitControls, Text } from '@react-three/drei'
 import * as THREE from 'three'
 import gsap from 'gsap'
+import firstSection from './firstSection'
 
 export default function Home() {
 
   const [cameraPathPoints, setCameraPathPoints] = useState([])
+
+  const dronePosition = useRef()
+  dronePosition.current = new THREE.Vector3()
+
+  const indexRef = useRef(0)
 
   useEffect(() => {
     fetch('/points.json')
@@ -41,6 +47,7 @@ export default function Home() {
             index = 0
           }
         }
+        indexRef.current = index
 
           const {x, y, z} = cameraPathPoints.position[index] 
           gsap.to(camera.position, {duration: 2, x, y, z})
@@ -59,13 +66,52 @@ export default function Home() {
     return (<primitive object={gltf.scene} />)
   }
 
+  const Drone = () => {
+    const gltf = useGLTF('mini-bot.glb')
+    gltf.scene.scale.set(0.5, 0.5, 0.5)
+
+    const { x, y, z } = cameraPathPoints.position[0]
+    gltf.scene.position.set(x - 3, y - 2, z - 4.6)
+    gltf.scene.rotation.y = 0.6
+    dronePosition.current.x = gltf.scene.position.x - 2
+    dronePosition.current.y = gltf.scene.position.x + 2
+    dronePosition.current.z = gltf.scene.position.z
+
+    let mixer
+    if (gltf.animations.length) {
+      mixer = new THREE.AnimationMixer(gltf.scene)
+      gltf.animations.forEach((clip) => {
+        if (clip.name === 'hip_control|waving') {
+          const action = mixer.clipAction(clip)
+          action.setLoop(THREE.LoopOnce) // Set the animation to play only once
+          action.clampWhenFinished = true // Keep the animation in its final state after it finishes
+          action.play()
+        }
+      })
+    }
+
+    useFrame((state, delta) => {
+      if (mixer) mixer.update(delta)
+    })
+
+    return <primitive object={gltf.scene} />
+  }
+
+  const TextMesh = () => {
+    const { x, y, z } = cameraPathPoints.position[indexRef.current]
+    if(indexRef.current === 0) return firstSection(x, y, z)
+  }
+
   return (
     <div className="w-screen h-screen">
       <Suspense fallback={'loading...'}>
         <Canvas>
           <ambientLight intensity={1} />
           <Model />
+          <directionalLight intensity={0.3} position={dronePosition.current} />
+          <Drone />
           <Render />
+          <TextMesh />
           {/* <OrbitControls /> */}
         </Canvas>
       </Suspense>
