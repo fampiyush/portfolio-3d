@@ -2,10 +2,11 @@
 
 import { Suspense, useEffect, useState, useRef } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
-import { useGLTF, OrbitControls, Text } from '@react-three/drei'
+import { useGLTF, OrbitControls, Text, Html } from '@react-three/drei'
 import * as THREE from 'three'
 import gsap from 'gsap'
 import firstSection from './firstSection'
+import secondSection from './secondSection'
 
 export default function Home() {
 
@@ -49,11 +50,11 @@ export default function Home() {
         }
         indexRef.current = index
 
-          const {x, y, z} = cameraPathPoints.position[index] 
-          gsap.to(camera.position, {duration: 2, x, y, z})
-  
-          const {x: rx, y: ry, z: rz} = cameraPathPoints.rotation[index]
-          gsap.to(camera.rotation, {x: rx, y: ry, z: rz, duration: 2})
+        const {x, y, z} = cameraPathPoints.position[index] 
+        gsap.to(camera.position, {duration: 2, x, y, z})
+
+        const {x: rx, y: ry, z: rz} = cameraPathPoints.rotation[index]
+        gsap.to(camera.rotation, {x: rx, y: ry, z: rz, duration: 2})
       }, 200)
     }
 
@@ -97,9 +98,14 @@ export default function Home() {
     return <primitive object={gltf.scene} />
   }
 
-  const TextMesh = () => {
-    const { x, y, z } = cameraPathPoints.position[indexRef.current]
-    if(indexRef.current === 0) return firstSection(x, y, z)
+  const FirstSection = () => {
+    const { x, y, z } = cameraPathPoints.position[0]
+    return firstSection(x, y, z)
+  }
+
+  const SecondSection = () => {
+    const { x, y, z } = cameraPathPoints.position[1]
+      return secondSection(x, y, z)
   }
 
   return (
@@ -111,7 +117,8 @@ export default function Home() {
           <directionalLight intensity={0.3} position={dronePosition.current} />
           <Drone />
           <Render />
-          <TextMesh />
+          <FirstSection />
+          <SecondSection />
           {/* <OrbitControls /> */}
         </Canvas>
       </Suspense>
