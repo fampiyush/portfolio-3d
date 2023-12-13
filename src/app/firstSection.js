@@ -19,8 +19,8 @@ export default (x, y, z) => {
           <div className='bg-[#9e2424] w-72 rounded-md border-4 border-[#732402] pl-1'>
             <h2 className='text-lg'>Instructions :</h2>
             <ul className='list-disc list-inside'>
-              <li className='text-sm'>Swipe Down to go to next section</li>
-              <li className='text-sm'>Swipe Up to go to previous section</li>
+              <li className='text-sm'>Scroll Down to go to next section</li>
+              <li className='text-sm'>Scroll Up to go to previous section</li>
             </ul>
           </div>
         </div>
