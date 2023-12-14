@@ -5,9 +5,9 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { useGLTF, OrbitControls, Text, Html } from '@react-three/drei'
 import * as THREE from 'three'
 import gsap from 'gsap'
-import firstSection from './firstSection'
-import secondSection from './secondSection'
-import thirdSection from './thirdSection'
+import WelcomeSection from '../components/WelcomeSection'
+import IntroSection from '../components/IntroSection'
+import SkillSection from '../components/SkillSection'
 
 export default function Home() {
 
@@ -19,9 +19,12 @@ export default function Home() {
   const indexRef = useRef(0)
 
   useEffect(() => {
-    fetch('/points.json')
+    const getCameraPathPoints = async () => {
+      await fetch('/points.json')
       .then(res => res.json())
       .then(data => setCameraPathPoints(data))
+    }
+    getCameraPathPoints()
   },[])
 
   const Render = () => {
@@ -102,17 +105,17 @@ export default function Home() {
 
   const FirstSection = () => {
     const { x, y, z } = cameraPathPoints.position[0]
-    return firstSection(x, y, z)
+    return WelcomeSection(x, y, z)
   }
 
   const SecondSection = () => {
     const { x, y, z } = cameraPathPoints.position[1]
-      return secondSection(x, y, z)
+      return IntroSection(x, y, z)
   }
 
   const ThirdSection = () => {
     const { x, y, z } = cameraPathPoints.position[2]
-    return thirdSection(x, y, z, indexRef.current)
+    return SkillSection(x, y, z, indexRef.current)
   }
 
   return (
