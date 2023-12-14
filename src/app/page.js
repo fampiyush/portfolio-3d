@@ -8,6 +8,7 @@ import gsap from 'gsap'
 import WelcomeSection from '../components/WelcomeSection'
 import IntroSection from '../components/IntroSection'
 import SkillSection from '../components/SkillSection'
+import KeepMovingSection from '../components/KeepMovingSection'
 
 export default function Home() {
 
@@ -115,7 +116,12 @@ export default function Home() {
 
   const ThirdSection = () => {
     const { x, y, z } = cameraPathPoints.position[2]
-    return SkillSection(x, y, z, indexRef.current)
+    return SkillSection(x, y, z)
+  }
+
+  const FourthSection = () => {
+    const { x, y, z } = cameraPathPoints.position[3]
+    return KeepMovingSection(x, y, z)
   }
 
   return (
@@ -130,6 +136,7 @@ export default function Home() {
           <FirstSection />
           <SecondSection />
           <ThirdSection />
+          <FourthSection />
           {/* <OrbitControls /> */}
         </Canvas>
       </Suspense>
