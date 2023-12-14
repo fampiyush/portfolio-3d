@@ -7,6 +7,7 @@ import * as THREE from 'three'
 import gsap from 'gsap'
 import firstSection from './firstSection'
 import secondSection from './secondSection'
+import thirdSection from './thirdSection'
 
 export default function Home() {
 
@@ -55,6 +56,7 @@ export default function Home() {
 
         const {x: rx, y: ry, z: rz} = cameraPathPoints.rotation[index]
         gsap.to(camera.rotation, {x: rx, y: ry, z: rz, duration: 2})
+
       }, 200)
     }
 
@@ -108,10 +110,15 @@ export default function Home() {
       return secondSection(x, y, z)
   }
 
+  const ThirdSection = () => {
+    const { x, y, z } = cameraPathPoints.position[2]
+    return thirdSection(x, y, z, indexRef.current)
+  }
+
   return (
     <div className="w-screen h-screen">
       <Suspense fallback={'loading...'}>
-        <Canvas>
+        <Canvas id='canvas'>
           <ambientLight intensity={1} />
           <Model />
           <directionalLight intensity={0.3} position={dronePosition.current} />
@@ -119,6 +126,7 @@ export default function Home() {
           <Render />
           <FirstSection />
           <SecondSection />
+          <ThirdSection />
           {/* <OrbitControls /> */}
         </Canvas>
       </Suspense>
