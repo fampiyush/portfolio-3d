@@ -8,6 +8,10 @@ export const metadata = {
   description: 'Portfolio website of Piyush Gupta',
 }
 
+export const viewport = {
+  userScalable: 'no',
+}
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
