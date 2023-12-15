@@ -9,6 +9,7 @@ import WelcomeSection from '../components/WelcomeSection'
 import IntroSection from '../components/IntroSection'
 import SkillSection from '../components/SkillSection'
 import KeepMovingSection from '../components/KeepMovingSection'
+import ProjectSection from '../components/ProjectSection'
 
 export default function Home() {
 
@@ -64,7 +65,45 @@ export default function Home() {
       }, 200)
     }
 
+    let touchStartY = 0
+    const handleTouchStart = (e) => {
+      touchStartY = e.touches[0].clientY; // Capture starting touch Y coordinate
+    };
+
+    const handleTouchMove = (e) => {
+      if(timeout) clearTimeout(timeout)
+      timeout = setTimeout(() => {
+      const currentY = e.touches[0].clientY; // Get current touch Y coordinate
+      const deltaY = currentY - touchStartY; // Calculate touch movement distance
+    
+      if (deltaY > 10) { // Threshold for scrolling down
+        index = index + 1
+        if (index > cameraPathPoints.position.length - 1) {
+          index = cameraPathPoints.position.length - 1
+        }
+      } else if (deltaY < -10) { // Threshold for scrolling up
+        index = index - 1
+        if (index < 0) {
+          index = 0
+        }
+      }
+    
+      touchStartY = currentY; // Update starting position for next touch move
+    
+      indexRef.current = index;
+    
+      const {x, y, z} = cameraPathPoints.position[index] 
+        gsap.to(camera.position, {duration: 2, x, y, z})
+
+      const {x: rx, y: ry, z: rz} = cameraPathPoints.rotation[index]
+      gsap.to(camera.rotation, {x: rx, y: ry, z: rz, duration: 2})
+
+      }, 200)
+    };
+
     window.addEventListener('wheel', handleScroll)
+    window.addEventListener('touchmove', handleTouchMove)
+    window.addEventListener('touchstart', handleTouchStart)
   }
 
   const Model = () => {
@@ -124,6 +163,11 @@ export default function Home() {
     return KeepMovingSection(x, y, z)
   }
 
+  const FifthSection = () => {
+    const { x, y, z } = cameraPathPoints.position[4]
+    return ProjectSection(x, y, z)
+  }
+
   return (
     <div className="w-screen h-screen">
       <Suspense fallback={'loading...'}>
@@ -137,6 +181,7 @@ export default function Home() {
           <SecondSection />
           <ThirdSection />
           <FourthSection />
+          <FifthSection />
           {/* <OrbitControls /> */}
         </Canvas>
       </Suspense>
