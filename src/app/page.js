@@ -11,6 +11,7 @@ import SkillSection from '../components/SkillSection'
 import KeepMovingSection from '../components/KeepMovingSection'
 import ProjectSection from '../components/ProjectSection'
 import WorkSection from '../components/WorkSection'
+import SocialsBanner from '../components/SocialsBanner'
 
 export default function Home() {
 
@@ -102,9 +103,9 @@ export default function Home() {
       }, 200)
     };
 
-    window.addEventListener('wheel', handleScroll)
-    window.addEventListener('touchmove', handleTouchMove)
-    window.addEventListener('touchstart', handleTouchStart)
+    document.getElementById('canvasContainer').addEventListener('wheel', handleScroll)
+    document.getElementById('canvasContainer').addEventListener('touchmove', handleTouchMove)
+    document.getElementById('canvasContainer').addEventListener('touchstart', handleTouchStart)
   }
 
   const Model = () => {
@@ -175,7 +176,7 @@ export default function Home() {
   }
 
   return (
-    <div className="w-screen h-screen">
+    <div className="w-screen h-screen" id='canvasContainer'>
       <Suspense fallback={'loading...'}>
         <Canvas id='canvas'>
           <ambientLight intensity={1} />
@@ -191,6 +192,7 @@ export default function Home() {
           <SixthSection />
           {/* <OrbitControls /> */}
         </Canvas>
+        <SocialsBanner />
       </Suspense>
     </div>
   )
