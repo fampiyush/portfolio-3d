@@ -10,6 +10,7 @@ import IntroSection from '../components/IntroSection'
 import SkillSection from '../components/SkillSection'
 import KeepMovingSection from '../components/KeepMovingSection'
 import ProjectSection from '../components/ProjectSection'
+import WorkSection from '../components/WorkSection'
 
 export default function Home() {
 
@@ -168,6 +169,11 @@ export default function Home() {
     return ProjectSection(x, y, z)
   }
 
+  const SixthSection = () => {
+    const { x, y, z } = cameraPathPoints.position[5]
+    return WorkSection(x, y, z)
+  }
+
   return (
     <div className="w-screen h-screen">
       <Suspense fallback={'loading...'}>
@@ -182,6 +188,7 @@ export default function Home() {
           <ThirdSection />
           <FourthSection />
           <FifthSection />
+          <SixthSection />
           {/* <OrbitControls /> */}
         </Canvas>
       </Suspense>
