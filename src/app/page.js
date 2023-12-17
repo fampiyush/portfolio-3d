@@ -4,6 +4,7 @@ import { Suspense, useEffect, useState, useRef } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { useGLTF, OrbitControls, Text, Html } from '@react-three/drei'
 import * as THREE from 'three'
+import Image from 'next/image'
 import gsap from 'gsap'
 import WelcomeSection from '../components/WelcomeSection'
 import IntroSection from '../components/IntroSection'
@@ -17,11 +18,14 @@ import EndSection from '../components/EndSection'
 export default function Home() {
 
   const [cameraPathPoints, setCameraPathPoints] = useState([])
+  const [isMobile, setIsMobile] = useState(false);
 
   const dronePosition = useRef()
   dronePosition.current = new THREE.Vector3()
 
   const indexRef = useRef(0)
+
+  const cameraRef = useRef()
 
   useEffect(() => {
     const getCameraPathPoints = async () => {
@@ -32,8 +36,23 @@ export default function Home() {
     getCameraPathPoints()
   },[])
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768)
+    }
+
+    handleResize() // Call the function once to set the initial value
+
+    window.addEventListener('resize', handleResize) // Add event listener for resize
+
+    return () => {
+      window.removeEventListener('resize', handleResize) // Clean up the event listener on component unmount
+    }
+  }, [])
+
   const Render = () => {
     const camera = useThree((state) => state.camera)
+    cameraRef.current = camera
 
     let index = 0
     const {x, y, z} = cameraPathPoints.position[index] 
@@ -74,45 +93,7 @@ export default function Home() {
       }, 200)
     }
 
-    let touchStartY = 0
-    const handleTouchStart = (e) => {
-      touchStartY = e.touches[0].clientY; // Capture starting touch Y coordinate
-    };
-
-    const handleTouchMove = (e) => {
-      if(timeout) clearTimeout(timeout)
-      timeout = setTimeout(() => {
-      const currentY = e.touches[0].clientY; // Get current touch Y coordinate
-      const deltaY = currentY - touchStartY; // Calculate touch movement distance
-    
-      if (deltaY > 10) { // Threshold for scrolling down
-        index = index + 1
-        if (index > cameraPathPoints.position.length - 1) {
-          index = cameraPathPoints.position.length - 1
-        }
-      } else if (deltaY < -10) { // Threshold for scrolling up
-        index = index - 1
-        if (index < 0) {
-          index = 0
-        }
-      }
-    
-      touchStartY = currentY; // Update starting position for next touch move
-    
-      indexRef.current = index;
-    
-      const {x, y, z} = cameraPathPoints.position[index] 
-        gsap.to(camera.position, {duration: 2, x, y, z})
-
-      const {x: rx, y: ry, z: rz} = cameraPathPoints.rotation[index]
-      gsap.to(camera.rotation, {x: rx, y: ry, z: rz, duration: 2})
-
-      }, 200)
-    };
-
     document.getElementById('canvasContainer').addEventListener('wheel', handleScroll)
-    document.getElementById('canvasContainer').addEventListener('touchmove', handleTouchMove)
-    document.getElementById('canvasContainer').addEventListener('touchstart', handleTouchStart)
   }
 
   const Model = () => {
@@ -126,8 +107,13 @@ export default function Home() {
     gltf.scene.scale.set(0.5, 0.5, 0.5)
 
     const { x, y, z } = cameraPathPoints.position[0]
-    gltf.scene.position.set(x - 3, y - 2, z - 4.6)
-    gltf.scene.rotation.y = 0.6
+    if(isMobile) {
+      gltf.scene.position.set(x - 2, y - 2, z - 10)
+      gltf.scene.rotation.y = 0.2
+    }else {
+      gltf.scene.position.set(x - 3, y - 2, z - 10)
+      gltf.scene.rotation.y = 0.6
+    }
     dronePosition.current.x = gltf.scene.position.x - 2
     dronePosition.current.y = gltf.scene.position.x + 2
     dronePosition.current.z = gltf.scene.position.z
@@ -154,17 +140,29 @@ export default function Home() {
 
   const FirstSection = () => {
     const { x, y, z } = cameraPathPoints.position[0]
-    return WelcomeSection(x, y, z)
+    if(isMobile) {
+      return WelcomeSection(x+3, y, z-10, true)
+    }else {
+      return WelcomeSection(x, y, z)
+    }
   }
 
   const SecondSection = () => {
     const { x, y, z } = cameraPathPoints.position[1]
+    if(isMobile) {
+      return IntroSection(x-1, y, z-10)
+    }else {
       return IntroSection(x, y, z)
+    }
   }
 
   const ThirdSection = () => {
     const { x, y, z } = cameraPathPoints.position[2]
-    return SkillSection(x, y, z)
+    if(isMobile) {
+      return SkillSection(x-3, y, z-5)
+    }else {
+      return SkillSection(x, y, z)
+    }
   }
 
   const FourthSection = () => {
@@ -174,17 +172,57 @@ export default function Home() {
 
   const FifthSection = () => {
     const { x, y, z } = cameraPathPoints.position[4]
-    return ProjectSection(x, y, z)
+    if(isMobile) {
+      return ProjectSection(x+3, y, z-5, true)
+    }else {
+      return ProjectSection(x, y, z)
+    }
   }
 
   const SixthSection = () => {
     const { x, y, z } = cameraPathPoints.position[5]
-    return WorkSection(x, y, z)
+    if(isMobile) {
+      return WorkSection(x-3, y, z-5, true)
+    }else {
+      return WorkSection(x, y, z)
+    }
   }
 
   const SeventhSection = () => { 
     const { x, y, z } = cameraPathPoints.position[6]
-    return EndSection(x, y, z)
+    if(isMobile) {
+      return EndSection(x-2, y, z-1)
+    }else {
+      return EndSection(x, y, z)
+    }
+  }
+
+  const onUp = () => {
+    setTimeout(() => {
+      indexRef.current += 1
+      if (indexRef.current > cameraPathPoints.position.length - 1) {
+        indexRef.current = cameraPathPoints.position.length - 1
+      }
+      const {x, y, z} = cameraPathPoints.position[indexRef.current]
+      gsap.to(cameraRef.current.position, {duration: 2, x, y, z})
+
+      const {x: rx, y: ry, z: rz} = cameraPathPoints.rotation[indexRef.current]
+      gsap.to(cameraRef.current.rotation, {x: rx, y: ry, z: rz, duration: 2})
+    }, 200)
+  }
+
+  const onDown = () => {
+    setTimeout(() => {
+      indexRef.current -= 1
+      if (indexRef.current < 0) {
+        indexRef.current = 0
+      }
+      const {x, y, z} = cameraPathPoints.position[indexRef.current]
+      gsap.to(cameraRef.current.position, {duration: 2, x, y, z})
+
+      const {x: rx, y: ry, z: rz} = cameraPathPoints.rotation[indexRef.current]
+      gsap.to(cameraRef.current.rotation, {x: rx, y: ry, z: rz, duration: 2})
+    }, 200)
   }
 
   return (
@@ -208,6 +246,17 @@ export default function Home() {
         <div id='socialBanner' style={{display: 'block'}}>
           <SocialsBanner />
         </div>
+        {
+          isMobile &&
+          <div>
+            <div className='fixed bottom-24 left-[45%]'>
+              <button onClick={onUp}><Image src='/images/next.png' width={60} height={60} alt='Next icon' style={{transform: 'rotate(-90deg)'}} priority /></button>
+            </div>
+            <div className='fixed bottom-8 left-[45%]'>
+              <button onClick={onDown}><Image src='/images/next.png' width={60} height={60} alt='Next icon' style={{transform: 'rotate(90deg)'}} priority /></button>
+            </div>
+          </div>
+        }
       </Suspense>
     </div>
   )
