@@ -12,6 +12,7 @@ import KeepMovingSection from '../components/KeepMovingSection'
 import ProjectSection from '../components/ProjectSection'
 import WorkSection from '../components/WorkSection'
 import SocialsBanner from '../components/SocialsBanner'
+import EndSection from '../components/EndSection'
 
 export default function Home() {
 
@@ -57,6 +58,12 @@ export default function Home() {
           }
         }
         indexRef.current = index
+
+        if(index == 6) {
+          document.getElementById('socialBanner').style.display = 'none'
+        } else {
+          document.getElementById('socialBanner').style.display = 'block'
+        }
 
         const {x, y, z} = cameraPathPoints.position[index] 
         gsap.to(camera.position, {duration: 2, x, y, z})
@@ -175,6 +182,11 @@ export default function Home() {
     return WorkSection(x, y, z)
   }
 
+  const SeventhSection = () => { 
+    const { x, y, z } = cameraPathPoints.position[6]
+    return EndSection(x, y, z)
+  }
+
   return (
     <div className="w-screen h-screen" id='canvasContainer'>
       <Suspense fallback={'loading...'}>
@@ -190,9 +202,12 @@ export default function Home() {
           <FourthSection />
           <FifthSection />
           <SixthSection />
+          <SeventhSection />
           {/* <OrbitControls /> */}
         </Canvas>
-        <SocialsBanner />
+        <div id='socialBanner' style={{display: 'block'}}>
+          <SocialsBanner />
+        </div>
       </Suspense>
     </div>
   )
