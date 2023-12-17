@@ -2,7 +2,7 @@ import { Canvas } from '@react-three/fiber'
 import { Text, Html } from '@react-three/drei'
 import React from 'react';
 
-export default (x, y, z) => {
+export default (x, y, z, isMobile) => {
 
   return (
     <>
@@ -13,9 +13,10 @@ export default (x, y, z) => {
         </div>
       </div>
     </Html>
+    {!isMobile &&
     <Html distanceFactor={10} position={[x, y, z]}>
       <div className='h-screen'>
-        <div className='absolute left-1 bottom-1'>
+        <div className='fixed left-1 bottom-1'>
           <div className='bg-[#9e2424] w-72 rounded-md border-4 border-[#732402] pl-1'>
             <h2 className='text-lg'>Instructions :</h2>
             <ul className='list-disc list-inside'>
@@ -25,7 +26,7 @@ export default (x, y, z) => {
           </div>
         </div>
       </div>
-    </Html>
+    </Html>}
     </>
   );
 };

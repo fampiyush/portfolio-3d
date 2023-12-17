@@ -33,7 +33,7 @@ export default (x, y, z) => {
       :
       <Html occlude distanceFactor={10} position={[x+8 , y + 2, z - 10]} rotation={[0.2, -0.18, 0]} transform>
         <div className="w-[50%] relative">
-          <div className='bg-[#9e2424] rounded-md border-4 p-2 border-[#732402] inline-block overflow-y-auto max-h-[35rem]'>
+          <div className='bg-[#9e2424] rounded-md border-4 p-2 border-[#732402] inline-block overflow-y-auto max-h-[32rem]'>
             <Skills />
           </div>
           <div className='absolute -top-3 -right-2 bg-[#fff] h-4 w-4'></div>

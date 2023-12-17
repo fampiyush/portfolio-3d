@@ -9,7 +9,7 @@ import houseMarketPlace from 'public/assets/projects/house-marketplace.png'
 import moviesTrailer from 'public/assets/projects/movies-trailer.png'
 import githubFinder from 'public/assets/projects/github-finder.png'
 
-export default (x, y, z) => {
+export default (x, y, z, isMobile) => {
 
   const [opened, setOpened] = useState(false)
   const [projectNumber, setProjectNumber] = useState(0)
@@ -69,9 +69,9 @@ export default (x, y, z) => {
         </div>
       </Html>
       :
-      <Html occlude distanceFactor={10} position={[x , y, z - 10]} rotation={[-0.1, 0, 0]} transform>
+      <Html occlude distanceFactor={10} position={isMobile ? [x-3 , y, z - 10] : [x+2 , y-0.8, z - 10]} rotation={[-0.1, 0, 0]} transform>
         <div className="container">
-          <div className='bg-[#9e2424] w-[30rem] rounded-md border-4 p-2 border-[#732402] inline-block'>
+          <div className='bg-[#9e2424] md:w-[30rem] w-[20rem] rounded-md border-4 p-2 border-[#732402] inline-block'>
             <ProjectItem title={info[projectNumber].title} img={info[projectNumber].img} projectUrl={info[projectNumber].projectUrl} tech={info[projectNumber].tech} />
           </div>
           {
