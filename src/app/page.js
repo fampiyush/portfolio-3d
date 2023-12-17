@@ -111,7 +111,7 @@ export default function Home() {
       gltf.scene.position.set(x - 2, y - 2, z - 10)
       gltf.scene.rotation.y = 0.2
     }else {
-      gltf.scene.position.set(x - 3, y - 2, z - 10)
+      gltf.scene.position.set(x - 3, y - 2, z - 5)
       gltf.scene.rotation.y = 0.6
     }
     dronePosition.current.x = gltf.scene.position.x - 2
