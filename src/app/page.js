@@ -2,7 +2,7 @@
 
 import { Suspense, useEffect, useState, useRef } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
-import { useGLTF, OrbitControls, Text, Html } from '@react-three/drei'
+import { useGLTF, OrbitControls, Loader } from '@react-three/drei'
 import * as THREE from 'three'
 import Image from 'next/image'
 import gsap from 'gsap'
@@ -227,7 +227,7 @@ export default function Home() {
 
   return (
     <div className="w-screen h-screen" id='canvasContainer'>
-      <Suspense fallback={'loading...'}>
+      <Suspense fallback={null}>
         <Canvas id='canvas'>
           <ambientLight intensity={1} />
           <Model />
@@ -258,6 +258,7 @@ export default function Home() {
           </div>
         }
       </Suspense>
+      <Loader />
     </div>
   )
 }
