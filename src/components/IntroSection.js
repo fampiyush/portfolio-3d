@@ -21,7 +21,7 @@ export default (x, y, z) => {
 
   return (
     !opened ?
-      <Html occlude distanceFactor={10} position={[x+5 , y + 0.8, z - 10]} rotation={[-0.1, -0.2, 0]} transform>
+      <Html position={[x+5 , y + 0.8, z - 10]} rotation={[-0.1, -0.2, 0]} transform>
         <div className="container">
           <div className='bg-[#9e2424] w-52 rounded-md border-4 border-[#732402] p-4 flex-row text-center'>
             <p className="text-white text-lg">Introduction</p>
@@ -30,7 +30,7 @@ export default (x, y, z) => {
         </div>
       </Html>
       :
-      <Html occlude distanceFactor={10} position={[x , y + 0.8, z - 10]} rotation={[-0.1, 0, 0]} transform>
+      <Html position={[x , y + 0.8, z - 10]} rotation={[-0.1, 0, 0]} transform>
         <div className="container">
           <div className='bg-[#9e2424] w-80 rounded-md border-4 p-2 border-[#732402]'>
             <p className="text-white text-base">Hi, I'm Piyush a Full-Stack Developer</p>
