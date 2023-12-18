@@ -6,7 +6,7 @@ import ProjectItem from './ProjectItem';
 
 import journalApp from 'public/assets/projects/journal-app.png'
 import houseMarketPlace from 'public/assets/projects/house-marketplace.png'
-import moviesTrailer from 'public/assets/projects/movies-trailer.png'
+import moviesTrailer from 'public/assets/projects/Movies-trailer.png'
 import githubFinder from 'public/assets/projects/github-finder.png'
 
 export default (x, y, z, isMobile) => {
