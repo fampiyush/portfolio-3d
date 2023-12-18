@@ -55,11 +55,13 @@ export default function Home() {
     cameraRef.current = camera
 
     let index = 0
-    const {x, y, z} = cameraPathPoints.position[index] 
-    camera.position.set(x, y, z)
-
-    const {x: rx, y: ry, z: rz} = cameraPathPoints.rotation[index]
-    camera.rotation.set(rx, ry, rz)
+    if(cameraPathPoints){
+      const {x, y, z} = cameraPathPoints.position[index] 
+      camera.position.set(x, y, z)
+  
+      const {x: rx, y: ry, z: rz} = cameraPathPoints.rotation[index]
+      camera.rotation.set(rx, ry, rz)
+    }
 
     let timeout
     const handleScroll = (e) => {
@@ -139,15 +141,18 @@ export default function Home() {
   }
 
   const FirstSection = () => {
-    const { x, y, z } = cameraPathPoints.position[0]
-    if(isMobile) {
-      return WelcomeSection(x+3, y, z-10, true)
-    }else {
-      return WelcomeSection(x, y, z)
+    if(cameraPathPoints) {
+      const { x, y, z } = cameraPathPoints.position[0]
+      if(isMobile) {
+        return WelcomeSection(x+3, y, z-10, true)
+      }else {
+        return WelcomeSection(x, y, z)
+      }
     }
   }
 
   const SecondSection = () => {
+    if(cameraPathPoints) {
     const { x, y, z } = cameraPathPoints.position[1]
     if(isMobile) {
       return IntroSection(x-1, y, z-10)
@@ -155,8 +160,10 @@ export default function Home() {
       return IntroSection(x, y, z)
     }
   }
+  }
 
   const ThirdSection = () => {
+    if(cameraPathPoints) {
     const { x, y, z } = cameraPathPoints.position[2]
     if(isMobile) {
       return SkillSection(x-3, y, z-5)
@@ -164,13 +171,17 @@ export default function Home() {
       return SkillSection(x, y, z)
     }
   }
+  }
 
   const FourthSection = () => {
+    if(cameraPathPoints) {
     const { x, y, z } = cameraPathPoints.position[3]
     return KeepMovingSection(x, y, z)
+    }
   }
 
   const FifthSection = () => {
+    if(cameraPathPoints) {
     const { x, y, z } = cameraPathPoints.position[4]
     if(isMobile) {
       return ProjectSection(x+3, y, z-5, true)
@@ -178,8 +189,10 @@ export default function Home() {
       return ProjectSection(x, y, z)
     }
   }
+  }
 
   const SixthSection = () => {
+    if(cameraPathPoints) {
     const { x, y, z } = cameraPathPoints.position[5]
     if(isMobile) {
       return WorkSection(x-3, y, z-5, true)
@@ -187,14 +200,17 @@ export default function Home() {
       return WorkSection(x, y, z)
     }
   }
+  }
 
   const SeventhSection = () => { 
+    if(cameraPathPoints) {
     const { x, y, z } = cameraPathPoints.position[6]
     if(isMobile) {
       return EndSection(x-2, y, z-1)
     }else {
       return EndSection(x, y, z)
     }
+  }
   }
 
   const onUp = () => {
