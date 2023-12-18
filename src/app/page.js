@@ -17,11 +17,12 @@ import EndSection from '../components/EndSection'
 
 export default function Home() {
 
-  const [cameraPathPoints, setCameraPathPoints] = useState([])
   const [isMobile, setIsMobile] = useState(false);
 
   const dronePosition = useRef()
   dronePosition.current = new THREE.Vector3()
+
+  const cameraPathPoints = useRef()
 
   const indexRef = useRef(0)
 
@@ -31,7 +32,7 @@ export default function Home() {
     const getCameraPathPoints = async () => {
       await fetch('/points.json')
       .then(res => res.json())
-      .then(data => setCameraPathPoints(data))
+      .then(data => cameraPathPoints.current = data)
     }
     getCameraPathPoints()
   },[])
@@ -56,10 +57,10 @@ export default function Home() {
 
     let index = 0
     if(cameraPathPoints){
-      const {x, y, z} = cameraPathPoints.position[index] 
+      const {x, y, z} = cameraPathPoints.current.position[index] 
       camera.position.set(x, y, z)
   
-      const {x: rx, y: ry, z: rz} = cameraPathPoints.rotation[index]
+      const {x: rx, y: ry, z: rz} = cameraPathPoints.current.rotation[index]
       camera.rotation.set(rx, ry, rz)
     }
 
@@ -69,8 +70,8 @@ export default function Home() {
       timeout = setTimeout(() => {
         if (e.deltaY > 0) {
           index = index + 1
-          if (index > cameraPathPoints.position.length - 1) {
-            index = cameraPathPoints.position.length - 1
+          if (index > cameraPathPoints.current.position.length - 1) {
+            index = cameraPathPoints.current.position.length - 1
           }
         } else {
           index = index - 1
@@ -86,10 +87,10 @@ export default function Home() {
           document.getElementById('socialBanner').style.display = 'block'
         }
 
-        const {x, y, z} = cameraPathPoints.position[index] 
+        const {x, y, z} = cameraPathPoints.current.position[index] 
         gsap.to(camera.position, {duration: 2, x, y, z})
 
-        const {x: rx, y: ry, z: rz} = cameraPathPoints.rotation[index]
+        const {x: rx, y: ry, z: rz} = cameraPathPoints.current.rotation[index]
         gsap.to(camera.rotation, {x: rx, y: ry, z: rz, duration: 2})
 
       }, 200)
@@ -108,7 +109,7 @@ export default function Home() {
     const gltf = useGLTF('mini-bot.glb')
     gltf.scene.scale.set(0.5, 0.5, 0.5)
 
-    const { x, y, z } = cameraPathPoints.position[0]
+    const { x, y, z } = cameraPathPoints.current.position[0]
     if(isMobile) {
       gltf.scene.position.set(x - 2, y - 2, z - 10)
       gltf.scene.rotation.y = 0.2
@@ -142,7 +143,7 @@ export default function Home() {
 
   const FirstSection = () => {
     if(cameraPathPoints) {
-      const { x, y, z } = cameraPathPoints.position[0]
+      const { x, y, z } = cameraPathPoints.current.position[0]
       if(isMobile) {
         return WelcomeSection(x+3, y, z-10, true)
       }else {
@@ -153,7 +154,7 @@ export default function Home() {
 
   const SecondSection = () => {
     if(cameraPathPoints) {
-    const { x, y, z } = cameraPathPoints.position[1]
+    const { x, y, z } = cameraPathPoints.current.position[1]
     if(isMobile) {
       return IntroSection(x-1, y, z-10)
     }else {
@@ -164,7 +165,7 @@ export default function Home() {
 
   const ThirdSection = () => {
     if(cameraPathPoints) {
-    const { x, y, z } = cameraPathPoints.position[2]
+    const { x, y, z } = cameraPathPoints.current.position[2]
     if(isMobile) {
       return SkillSection(x-3, y, z-5)
     }else {
@@ -175,14 +176,14 @@ export default function Home() {
 
   const FourthSection = () => {
     if(cameraPathPoints) {
-    const { x, y, z } = cameraPathPoints.position[3]
+    const { x, y, z } = cameraPathPoints.current.position[3]
     return KeepMovingSection(x, y, z)
     }
   }
 
   const FifthSection = () => {
     if(cameraPathPoints) {
-    const { x, y, z } = cameraPathPoints.position[4]
+    const { x, y, z } = cameraPathPoints.current.position[4]
     if(isMobile) {
       return ProjectSection(x+3, y, z-5, true)
     }else {
@@ -193,7 +194,7 @@ export default function Home() {
 
   const SixthSection = () => {
     if(cameraPathPoints) {
-    const { x, y, z } = cameraPathPoints.position[5]
+    const { x, y, z } = cameraPathPoints.current.position[5]
     if(isMobile) {
       return WorkSection(x-3, y, z-5, true)
     }else {
@@ -204,7 +205,7 @@ export default function Home() {
 
   const SeventhSection = () => { 
     if(cameraPathPoints) {
-    const { x, y, z } = cameraPathPoints.position[6]
+    const { x, y, z } = cameraPathPoints.current.position[6]
     if(isMobile) {
       return EndSection(x-2, y, z-1)
     }else {
@@ -216,13 +217,13 @@ export default function Home() {
   const onUp = () => {
     setTimeout(() => {
       indexRef.current += 1
-      if (indexRef.current > cameraPathPoints.position.length - 1) {
-        indexRef.current = cameraPathPoints.position.length - 1
+      if (indexRef.current > cameraPathPoints.current.position.length - 1) {
+        indexRef.current = cameraPathPoints.current.position.length - 1
       }
-      const {x, y, z} = cameraPathPoints.position[indexRef.current]
+      const {x, y, z} = cameraPathPoints.current.position[indexRef.current]
       gsap.to(cameraRef.current.position, {duration: 2, x, y, z})
 
-      const {x: rx, y: ry, z: rz} = cameraPathPoints.rotation[indexRef.current]
+      const {x: rx, y: ry, z: rz} = cameraPathPoints.current.rotation[indexRef.current]
       gsap.to(cameraRef.current.rotation, {x: rx, y: ry, z: rz, duration: 2})
     }, 200)
   }
@@ -233,10 +234,10 @@ export default function Home() {
       if (indexRef.current < 0) {
         indexRef.current = 0
       }
-      const {x, y, z} = cameraPathPoints.position[indexRef.current]
+      const {x, y, z} = cameraPathPoints.current.position[indexRef.current]
       gsap.to(cameraRef.current.position, {duration: 2, x, y, z})
 
-      const {x: rx, y: ry, z: rz} = cameraPathPoints.rotation[indexRef.current]
+      const {x: rx, y: ry, z: rz} = cameraPathPoints.current.rotation[indexRef.current]
       gsap.to(cameraRef.current.rotation, {x: rx, y: ry, z: rz, duration: 2})
     }, 200)
   }
