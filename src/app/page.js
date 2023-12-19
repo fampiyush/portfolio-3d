@@ -5,8 +5,8 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { useGLTF, OrbitControls, Loader } from '@react-three/drei'
 import * as THREE from 'three'
 import Image from 'next/image'
-import useSWR from 'swr'
 import gsap from 'gsap'
+import { getPoints } from '../components/Points'
 import WelcomeSection from '../components/WelcomeSection'
 import IntroSection from '../components/IntroSection'
 import SkillSection from '../components/SkillSection'
@@ -15,8 +15,6 @@ import ProjectSection from '../components/ProjectSection'
 import WorkSection from '../components/WorkSection'
 import SocialsBanner from '../components/SocialsBanner'
 import EndSection from '../components/EndSection'
-
-const fetcher = (...args) => fetch(...args).then(res => res.json())
 
 export default function Home() {
 
@@ -29,7 +27,7 @@ export default function Home() {
 
   const cameraRef = useRef()
 
-  const { data: cameraPathPoints, error, isLoading } = useSWR('/points.json', fetcher)
+  const cameraPathPoints = getPoints()
 
   useEffect(() => {
     const handleResize = () => {
