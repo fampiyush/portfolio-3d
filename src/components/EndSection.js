@@ -1,7 +1,4 @@
-import { Canvas } from '@react-three/fiber'
-import { Text, Html } from '@react-three/drei'
-import { useState } from 'react';
-import Image from 'next/image';
+import { Html } from '@react-three/drei'
 import SocialsBanner from './SocialsBanner';
 
 export default (x, y, z) => {

@@ -1,5 +1,4 @@
-import { Canvas } from '@react-three/fiber'
-import { Text, Html } from '@react-three/drei'
+import { Html } from '@react-three/drei'
 
 export default (x, y, z) => {
   return (

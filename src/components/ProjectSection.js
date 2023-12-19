@@ -1,5 +1,4 @@
-import { Canvas } from '@react-three/fiber'
-import { Text, Html } from '@react-three/drei'
+import { Html } from '@react-three/drei'
 import { useState } from 'react';
 import Image from 'next/image';
 import ProjectItem from './ProjectItem';

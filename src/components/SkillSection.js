@@ -1,6 +1,5 @@
-import { Canvas } from '@react-three/fiber'
-import { Text, Html } from '@react-three/drei'
-import { useEffect, useState } from 'react';
+import { Html } from '@react-three/drei'
+import { useState } from 'react';
 import Image from 'next/image';
 import Skills from './Skills';
 
@@ -14,10 +13,6 @@ export default (x, y, z) => {
 
   const onClose = () => {
     setOpened(false)
-  }
-
-  const onNext = () => {
-    console.log('next')
   }
 
   return (

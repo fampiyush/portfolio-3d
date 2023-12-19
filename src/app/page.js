@@ -2,7 +2,7 @@
 
 import { Suspense, useEffect, useState, useRef } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
-import { useGLTF, OrbitControls, Loader } from '@react-three/drei'
+import { useGLTF, Loader } from '@react-three/drei'
 import * as THREE from 'three'
 import Image from 'next/image'
 import gsap from 'gsap'
@@ -250,7 +250,6 @@ export default function Home() {
           <FifthSection />
           <SixthSection />
           <SeventhSection />
-          {/* <OrbitControls /> */}
         </Canvas>
         <div id='socialBanner' style={{display: 'block'}}>
           <SocialsBanner />

@@ -1,5 +1,5 @@
 import { AiOutlineMail } from 'react-icons/ai';
-import { BsFile, BsFillPersonLinesFill } from 'react-icons/bs';
+import { BsFillPersonLinesFill } from 'react-icons/bs';
 import {FaGithub, FaLinkedinIn } from "react-icons/fa"
 
 export default ({last}) => {

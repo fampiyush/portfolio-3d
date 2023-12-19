@@ -1,5 +1,4 @@
-import { Canvas } from '@react-three/fiber'
-import { Text, Html } from '@react-three/drei'
+import { Html } from '@react-three/drei'
 import { useState } from 'react';
 import Image from 'next/image';
 
@@ -13,10 +12,6 @@ export default (x, y, z) => {
 
   const onClose = () => {
     setOpened(false)
-  }
-
-  const onNext = () => {
-    console.log('next')
   }
 
   return (
@@ -36,10 +31,6 @@ export default (x, y, z) => {
             <p className="text-white text-base">Hi, I'm Piyush a Full-Stack Developer</p>
             <p className="text-white text-base">specializing in building and designing exceptional digital experiences. Currently, I'm focused on building responsive 3D full stack web applications.</p>
           </div>
-          {/* <div className='absolute -right-12 top-[4.7rem] bg-[#fff] h-6 w-6'></div>
-          <div className='absolute -right-16 top-16'>
-            <button onClick={onNext}><Image src='/images/next.png' width={50} height={50} alt='Next icon' /></button>
-          </div> */}
           <div className='absolute -top-3 -right-2 bg-[#fff] h-4 w-4'></div>
           <div className='absolute -top-4 -right-4'>
             <button onClick={onClose}><Image src='/images/close.png' width={30} height={30} alt='Close icon' /></button>
