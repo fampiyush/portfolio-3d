@@ -7,6 +7,7 @@ import journalApp from 'public/assets/projects/journal-app.png'
 import houseMarketPlace from 'public/assets/projects/house-marketplace.png'
 import moviesTrailer from 'public/assets/projects/Movies-trailer.png'
 import githubFinder from 'public/assets/projects/github-finder.png'
+import virtualMeet from 'public/assets/projects/virtual-meet.png'
 
 export default (x, y, z, isMobile) => {
 
@@ -31,6 +32,12 @@ export default (x, y, z, isMobile) => {
   }
 
   const info = [
+    {
+      title: 'Virtual Meet',
+      img: virtualMeet,
+      projectUrl: 'http://localhost:3000/virtualMeet',
+      tech: 'React JS / Node JS'
+    },
     {
       title: 'Polaroid Gallery',
       img: journalApp,
