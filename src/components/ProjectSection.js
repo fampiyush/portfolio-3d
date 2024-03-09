@@ -35,7 +35,7 @@ export default (x, y, z, isMobile) => {
     {
       title: 'Virtual Meet',
       img: virtualMeet,
-      projectUrl: 'http://localhost:3000/virtualMeet',
+      projectUrl: 'http://www.piyushg.com/virtualMeet',
       tech: 'React JS / Node JS'
     },
     {
